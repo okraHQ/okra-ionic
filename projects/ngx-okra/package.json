@@ -1,0 +1,10 @@
+{
+  "name": "ngx-okra",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@ionic-native/core": "^5.16.0",
+    "@ionic-native/in-app-browser": "^5.16.0"
+  }
+}
