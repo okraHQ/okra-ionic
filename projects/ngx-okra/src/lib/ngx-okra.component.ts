@@ -10,6 +10,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 export class NgxOkraComponent implements OnInit {
 
   @Input() env: string;
+  @Input() token: string;
   @Input() url_env: string;
   @Input() clientName: number;
   @Input() customStyle: {};
@@ -18,21 +19,36 @@ export class NgxOkraComponent implements OnInit {
   @Input() callback_url: string;
   @Input() user: {};
   @Input() products: string[];
-  //@Input() okraOptions: OkraOptions;
   @Output() onClose: EventEmitter<any> = new EventEmitter<any>(); // tslint:disable-line
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   key: string;
+  urlRequest: string;
+  baseUrl = "https://demo-dev.okra.ng/link.html?";
 
   constructor(public okraWidgetService: NgxOkraService, private iab: InAppBrowser) {
     this.key = okraWidgetService.okraPublicKey;
    }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async initOkra() {
-    const browser = this.iab.create('https://demo-dev.okra.ng/link.html?isWebview=true&key=c81f3e05-7a5c-5727-8d33-1113a3c7a5e4&token=5d8a35224d8113507c7521ac&products=[%22auth%22,%22transactions%22,%22balance%22]&env=dev&clientName=Spinach', '_self', { location: 'no' });
+
+   this.urlRequest = `${this.baseUrl}isWebview=${true}&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}`;
+
+   const browser = this.iab.create("https://demo-dev.okra.ng/link.html?ref=GrOH-KS4", '_self', { location: 'no' });
   }
 
+  convertArrayToString(products: string[]){
 
+    let formattedArray: string = "[";
+        for (var index in products){
+            if(Number(index) == (products.length - 1)){
+                formattedArray = `${formattedArray}${"\"" + products[index] + "\""}` 
+            }else {
+                formattedArray = `${formattedArray}${"\"" + products[index] + "\","}`
+            }
+        }
+        formattedArray = formattedArray + "]";
+        return formattedArray;
+  }
 }
