@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgxOkraService } from './ngx-okra.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Device } from '@ionic-native/device/ngx';
 
 @Component({
   selector: 'okra-button',
@@ -25,7 +26,7 @@ export class NgxOkraComponent implements OnInit {
   urlRequest: string;
   baseUrl = "https://demo-dev.okra.ng/link.html?";
 
-  constructor(public okraWidgetService: NgxOkraService, private iab: InAppBrowser) {
+  constructor(public okraWidgetService: NgxOkraService, private iab: InAppBrowser, private device: Device) {
     this.key = okraWidgetService.okraPublicKey;
    }
 
@@ -33,9 +34,13 @@ export class NgxOkraComponent implements OnInit {
 
   async initOkra() {
 
-   this.urlRequest = `${this.baseUrl}isWebview=${true}&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}`;
+   //this.urlRequest = `${this.baseUrl}isWebview=${true}&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}`;
 
-   const browser = this.iab.create("https://demo-dev.okra.ng/link.html?ref=GrOH-KS4", '_self', { location: 'no' });
+   this.urlRequest = `${this.baseUrl}isWebview=${true}&source=ionic&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}&uuid=${this.device.uuid}`;
+   //https://demo-dev.okra.ng/link.html?ref=GrOH-KS4
+
+   const browser = this.iab.create(this.urlRequest, '_self', { location: 'no' });
+
   }
 
   convertArrayToString(products: string[]){

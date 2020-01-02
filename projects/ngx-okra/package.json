@@ -4,7 +4,21 @@
   "peerDependencies": {
     "@angular/common": "^8.2.14",
     "@angular/core": "^8.2.14",
-    "@ionic-native/core": "^5.16.0",
-    "@ionic-native/in-app-browser": "^5.16.0"
+    "@ionic-native/core": "^5.19.0",
+    "@ionic-native/in-app-browser": "^5.16.0",
+    "@ionic-native/device": "^5.19.0"
+  },
+  "dependencies": {
+    "@ionic-native/core": "^5.19.0",
+    "@ionic-native/device": "^5.19.0",
+    "@ionic-native/in-app-browser": "^5.19.0",
+    "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-inappbrowser": "^3.1.0"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-device": {},
+      "cordova-plugin-inappbrowser": {}
+    }
   }
 }

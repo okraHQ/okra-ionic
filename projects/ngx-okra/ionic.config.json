@@ -1,5 +1,7 @@
 {
   "name": "ionic-okra",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
