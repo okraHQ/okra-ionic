@@ -5,7 +5,7 @@
 
 ### 1. Install the module
 ```sh
-npm install --save ionic-okra
+npm i ngx-okra
 ```
 
 ### 2. Import the module

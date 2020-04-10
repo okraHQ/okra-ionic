@@ -1,24 +1,109 @@
-# NgxOkra
+# okra-ionic
+> This is an ionic module that abstracts the complexity of using okra with Ionic/Angular+.
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.14.
+## USAGE
 
-## Code scaffolding
+### 1. Install the module
+```sh
+npm i ngx-okra
+```
 
-Run `ng generate component component-name --project ngx-okra` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-okra`.
-> Note: Don't forget to add `--project ngx-okra` or else it will be added to the default project in your `angular.json` file. 
+### 2. Import the module
+In your `app.module.ts` or any module where the component or directive would be used like so:
 
-## Build
+```ts
+import { NgModule } from '@angular/core';
 
-Run `ng build ngx-okra` to build the project. The build artifacts will be stored in the `dist/` directory.
+import { NgxOkraModule } from 'ngx-okra';
+...
 
-## Publishing
+@NgModule({
+  imports: [
+    NgxOkraModule.forRoot('public_key_xxxxxxxxxxxxxxxxxxxxxxxx'),
+  ]
+})
 
-After building your library with `ng build ngx-okra`, go to the dist folder `cd dist/ngx-okra` and run `npm publish`.
+export class AppModule {}
+```
 
-## Running unit tests
+### 3. Implement in your project
+There are two available options
 
-Run `ng test ngx-okra` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* **AngularOkraComponent**: Renders a button which when clicked loads okra Inline
+  ```html
+    <okra-button
+      [customStyle]="{'font-size.px':14, 'color' : 'green', 'background-color' : 'coral'}"
+      [clientName]="'bassey'" 
+      [env]="'sandbox'" 
+      [callback_url]="'www.my-webhook.com'"
+      [products]="['auth', 'transactions', 'balance', 'income', 'identity']" (onClose)="okraCancel()"
+      (onSuccess)="okraDone()">
+      Open Okra
+    </okra-button>
+  ```
 
-## Further help
+*  **AngularOkraDirective**: A directive that loads okra inline when clicked
+```html
+  <button
+    okraButton
+      [clientName]="'bassey'" 
+      [env]="'sandbox'" 
+      [callback_url]="'www.my-webhook.com'"
+      [products]="['auth', 'transactions', 'balance', 'income', 'identity']" (onClose)="okraCancel()"
+      (onSuccess)="okraDone()">
+    Open okra
+  </button>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+And then in your `component.ts`
+```ts
+  import { Component, OnInit } from '@angular/core';
+
+  @Component({
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
+  })
+  export class AppComponent implements OnInit {
+    reference = '';
+    constructor() {}
+
+    okraInit() {
+      console.log('Okra initialized');
+    }
+
+    okraDone(ref: any) {
+      this.title = 'Okra successfull';
+      console.log(this.title, ref);
+    }
+
+    okraCancel() {
+      console.log('Okra cancelled');
+    }
+  }
+  
+```
+
+
+## OkraOptions
+
+|Name                   | Type           | Required            | Default Value       | Description         |
+|-----------------------|----------------|---------------------|---------------------|---------------------|
+|  `callback_url `      | `string`       | true                |  undefined          | This is your webhook to which okra sends the clients data to.
+|  `key `               | `String`       | false               |  undefined          | Your public key from Okra.
+|  `products`           | `ArrayList<Enums.Product>`| true     |  undefined          | The Okra products you want to use with the widget. list of products include: 'auth', 'transactions', 'balance', 'income', 'identity'
+|  `env`                | `Enums.Environment`| true            |  undefined          | 
+|  `clientName`         | `String`       | true                |  undefined          | Name of the customer using the widget on the application
+|  `user`               | `object`       | false               |  undefined          | This contains some information of the user using the okra widget {fullname: 'USER_FULL_NAME',email: 'USER_EMAIL', bvn: 'USER_BVN'}
+
+
+
+> For more information checkout [okra's documentation](https://docs.okra.ng)
+
+## Contributing
+
+Please feel free to fork this package and contribute by submitting a pull request to enhance the functionalities.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

@@ -24,7 +24,7 @@ export class NgxOkraComponent implements OnInit {
   @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
   key: string;
   urlRequest: string;
-  baseUrl = "https://demo-dev.okra.ng/link.html?";
+  baseUrl = "https://app.okra.ng/?";
 
   constructor(public okraWidgetService: NgxOkraService, private iab: InAppBrowser, private device: Device) {
     this.key = okraWidgetService.okraPublicKey;
@@ -36,7 +36,7 @@ export class NgxOkraComponent implements OnInit {
 
    //this.urlRequest = `${this.baseUrl}isWebview=${true}&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}`;
 
-   this.urlRequest = `${this.baseUrl}isWebview=${true}&source=ionic&key=${this.key}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}&uuid=${this.device.uuid}`;
+   this.urlRequest = `${this.baseUrl}isWebview=${true}&source=ionic&key=${this.key}&env=${this.env}&token=${this.token}&products=${this.convertArrayToString(this.products)}&clientName=${this.clientName}&uuid=${this.device.uuid}`;
    //https://demo-dev.okra.ng/link.html?ref=GrOH-KS4
 
    const browser = this.iab.create(this.urlRequest, '_self', { location: 'no' });
